@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Abdulmejid Language Interpreting</title>
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --secondary-color: #004085;
+      --accent-color: #28a745;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-color: #212529;
+      --border-color: #dee2e6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 20px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 10px;
+      border-bottom: 2px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-color);
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background-color: #e9ecef;
+    }
+
+    .nav-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    /* Page Sections */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards & Layout */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .card h2 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      border-bottom: 2px solid #e9ecef;
+      padding-bottom: 8px;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .service-box {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      background: #fafafa;
+    }
+
+    .service-box h3 {
+      color: var(--secondary-color);
+      margin-bottom: 8px;
+    }
+
+    /* Form & Controls */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      background-color: #fff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.15);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    /* Live Calculator Box */
+    .quote-box {
+      background: #eef6ff;
+      border: 2px dashed var(--primary-color);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .quote-price {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+
+    /* Media Space */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .media-item {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: #000;
+      max-height: 200px;
+    }
+
+    .media-item img, .media-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* File Preview Container */
+    .preview-box {
+      border: 2px dashed #a0aec0;
+      padding: 15px;
+      text-align: center;
+      border-radius: 6px;
+      background: #f7fafc;
+      margin-top: 10px;
+    }
+
+    #file-list {
+      margin-top: 10px;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #6c757d;
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Abdulmejid Language Interpreting 🌍</h1>
+    <p>Professional Afaan Oromoo, Amharic  & English Interpreting Services</p>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav>
+    <button class="nav-btn active" onclick="showTab('home')">Home</button>
+    <button class="nav-btn" onclick="showTab('services')">Services</button>
+    <button class="nav-btn" onclick="showTab('quote')">Instant Quote</button>
+    <button class="nav-btn" onclick="showTab('media')">Media & Space</button>
+    <button class="nav-btn" onclick="showTab('book')">Book Service</button>
+  </nav>
+
+  <div class="container">
+
+    <!-- 1. HOME TAB -->
+    <div id="home" class="tab-content active">
+      <div class="card">
+        <h2>Welcome to Abdulmejid Interpreting</h2>
+        <p>Providing high-quality, confidential, and professional language interpreting services for legal, medical, corporate, and community settings.</p>
+        <br>
+        <p><strong>Languages Offered:</strong> Afaan Oromoo, Amharic & English</p>
+      </div>
+
+      <div class="card">
+        <h2>Why Choose Us?</h2>
+        <div class="services-grid">
+          <div class="service-box">
+            <h3>Medical Qualified</h3>
+            <p>Expertise in clinical assessments and healthcare consultations.</p>
+          </div>
+          <div class="service-box">
+            <h3>Fast & Accurate</h3>
+            <p>Reliable live interpreting with complete subject accuracy.</p>
+          </div>
+          <div class="service-box">
+            <h3>Strict Confidentiality</h3>
+            <p>Adherence to global privacy standards and non-disclosure protocols.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. SERVICES TAB -->
+    <div id="services" class="tab-content">
+      <div class="card">
+        <h2>Our Main Services</h2>
+        <div class="services-grid">
+          <div class="service-box">
+            <h3>Healthcare & Medical</h3>
+            <p>GP appointments, hospital consultations, and mental health assessments.</p>
+          </div>
+          <div class="service-box">
+            <h3>Public & Community Services</h3>
+            <p>Social services meetings, council inquiries, and education support.</p>
+          </div>
+          <div class="service-box">
+            <h3>Remote Video & Phone</h3>
+            <p>Convenient online session support via Zoom, Teams, or phone call.</p>
+          </div>
+          <div class="service-box">
+            <h3>Document Translation</h3>
+            <p>Written translation of certificates, official letters, and forms.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. INSTANT QUOTE TAB -->
+    <div id="quote" class="tab-content">
+      <div class="card">
+        <h2>Estimate Your Service Cost</h2>
+        <div class="form-group">
+          <label for="calc-service">Select Work Type:</label>
+          <select id="calc-service" onchange="calculateQuote()">
+            <option value="15">Remote Video / Phone Session (£15/hr)</option>
+            <option value="15">In-Person Healthcare Session (£15/hr)</option>
+            <option value="15">In-Person Public/Community Service (£15/hr)</option>
+            <option value="0.10">Document Translation (£0.15 per word)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="calc-qty" id="qty-label">Duration (Hours):</label>
+          <input type="number" id="calc-qty" min="1" value="1" oninput="calculateQuote()">
+        </div>
+
+        <div class="quote-box">
+          <p>Estimated Total Price:</p>
+          <div class="quote-price" id="total-quote">£15.00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. MEDIA & SPACE TAB -->
+    <div id="media" class="tab-content">
+      <div class="card">
+        <h2>Photo & Video Space</h2>
+        <p>Explore media samples and presentation clips of our language services.</p>
+
+        <div class="media-grid">
+          <div class="media-item">         
+          <div class="media-item">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop" alt="Online interpreting consultation">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. BOOK SERVICE TAB -->
+    <div id="book" class="tab-content">
+      <div class="card">
+        <h2>Book an Interpreter / Request Service</h2>
+        <p>Fill out the intake form below to schedule your session:</p>
+        <br>
+
+        <!-- Formspree Integration -->
+        <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" enctype="multipart/form-data">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="full-name">Full Name *</label>
+              <input type="text" id="full-name" name="Full Name" required placeholder="e.g. Abdulmejid Beyene">
+            </div>
+            <div class="form-group">
+              <label for="email-addr">Email Address *</label>
+              <input type="email" id="email-addr" name="Email" required placeholder="name@example.com">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="work-type">Type of Work *</label>
+              <select id="work-type" name="Type of Work" required>
+                <option value="In-Person Medical">In-Person Medical Interpreting</option>
+                <option value="In-Person Community">In-Person Community Service</option>
+                <option value="Remote Video/Phone">Remote Video / Phone Call</option>
+                <option value="Document Translation">Document Translation</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="nationality">Client Nationality</label>
+              <input type="text" id="nationality" name="Nationality" placeholder="e.g. Oromo">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="service-date">Date of Service *</label>
+              <input type="date" id="service-date" name="Service Date" required>
+            </div>
+            <div class="form-group">
+              <label for="service-time">Preferred Time *</label>
+              <input type="time" id="service-time" name="Service Time" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="details">Additional Session Details / Notes</label>
+            <textarea id="details" name="Additional Details" rows="4" placeholder="Mention appointment location, specific dialect preference, or special requests..."></textarea>
+          </div>
+
+          <!-- Upload Photos / Documents -->
+          <div class="form-group">
+            <label>Attach Documents or Reference Photos (Optional)</label>
+            <div class="preview-box">
+              <input type="file" id="file-upload" name="Attachment" multiple onchange="previewFiles()">
+              <div id="file-list">No file selected</div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Submit Booking Request</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Abdulmejid Language Interpreting. All rights reserved.
+  </footer>
+
+  <script>
+    // Tab Navigation Logic
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab-content');
+      const buttons = document.querySelectorAll('.nav-btn');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Calculator Logic
+    function calculateQuote() {
+      const rate = parseFloat(document.getElementById('calc-service').value);
+      const qty = parseFloat(document.getElementById('calc-qty').value) || 0;
+      const label = document.getElementById('qty-label');
+      
+      if (rate === 0.10) {
+        label.innerText = 'Word Count:';
+      } else {
+        label.innerText = 'Duration (Hours):';
+      }
+
+      const total = rate * qty;
+      document.getElementById('total-quote').innerText = '£' + total.toFixed(2);
+    }
+
+    // File Upload Preview
+    function previewFiles() {
+      const fileInput = document.getElementById('file-upload');
+      const fileList = document.getElementById('file-list');
+      
+      if (fileInput.files.length > 0) {
+        let names = '<strong>Selected Files:</strong><br>';
+        for (let i = 0; i < fileInput.files.length; i++) {
+          names += '📄 ' + fileInput.files[i].name + '<br>';
+        }
+        fileList.innerHTML = names;
+      } else {
+        fileList.innerHTML = 'No file selected';
+      }
+    }
+  </script>
+</body>
+</html>
